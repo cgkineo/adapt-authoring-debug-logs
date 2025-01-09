@@ -86,6 +86,7 @@ define(function(require){
         }
         const logData = await $.post(`/api/logs/query?${query.join('&')}`, data, (data, status, jqXhr) => {
           const linkHeader = jqXhr.getResponseHeader('Link');
+          if (!linkHeader) return
           const lastMatch = linkHeader.match(/<[^>]*=(\d+)>; rel="last"/);
           const lastPage = lastMatch && Number(lastMatch[1]);
           if(lastPage) this.model.set('lastPage', lastPage);
